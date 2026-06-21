@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import { site, navLinks } from "@/lib/site";
-import { HouseMark } from "@/components/Logo";
+import { Logo } from "@/components/Logo";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -44,24 +44,17 @@ export default function Navbar() {
         }`}
       >
         <nav className="container-x flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3" aria-label="Kajiya Houses Sapanca — ana sayfa">
-            <HouseMark className="h-10 w-auto shrink-0 transition-transform duration-500 group-hover:scale-105" />
-            <span className="flex flex-col leading-none">
-              <span
-                className={`font-display text-2xl font-semibold tracking-wide transition-colors duration-500 ${
-                  scrolled ? "text-forest" : "text-cream"
-                }`}
-              >
-                Kajiya Houses
-              </span>
-              <span
-                className={`mt-0.5 font-body text-[0.6rem] uppercase tracking-brand transition-colors duration-500 ${
-                  scrolled ? "text-gold" : "text-cream/70"
-                }`}
-              >
-                Sapanca
-              </span>
-            </span>
+          <Link
+            href="/"
+            className="group flex items-center"
+            aria-label="Kajiya Houses Sapanca — ana sayfa"
+          >
+            <Logo
+              priority
+              className={`w-auto transition-all duration-500 group-hover:scale-105 ${
+                scrolled ? "h-12" : "h-14"
+              }`}
+            />
           </Link>
 
           {/* Desktop links */}
@@ -115,12 +108,7 @@ export default function Navbar() {
             className="fixed inset-0 z-[60] flex flex-col bg-forest text-cream md:hidden"
           >
             <div className="container-x flex items-center justify-between py-6">
-              <span className="flex items-center gap-3">
-                <HouseMark className="h-9 w-auto" />
-                <span className="font-display text-2xl font-semibold">
-                  Kajiya Houses
-                </span>
-              </span>
+              <Logo className="h-12 w-auto" />
               <button onClick={() => setOpen(false)} aria-label="Menüyü kapat">
                 <X className="h-7 w-7" />
               </button>

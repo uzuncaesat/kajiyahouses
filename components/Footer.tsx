@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Phone, MapPin, Clock, Instagram, ArrowUpRight } from "lucide-react";
 import { site, navLinks } from "@/lib/site";
-import { HouseMark } from "@/components/Logo";
+import { Logo } from "@/components/Logo";
 
 // Lucide'de marka ikonu olmadığı için WhatsApp ikonu inline SVG
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -46,16 +46,7 @@ export default function Footer() {
       <div className="container-x grid grid-cols-1 gap-12 py-16 md:grid-cols-4">
         {/* Brand */}
         <div className="md:col-span-2">
-          <div className="flex items-center gap-4">
-            <HouseMark className="h-12 w-auto" />
-            <h3 className="font-display text-3xl font-semibold uppercase tracking-wide">
-              Kajiya Houses
-            </h3>
-          </div>
-          <p className="mt-3 flex items-center gap-1.5 font-body text-xs uppercase tracking-brand text-gold">
-            <MapPin className="h-3 w-3" />
-            Sapanca, Türkiye
-          </p>
+          <Logo className="h-28 w-auto" />
           <p className="mt-6 max-w-xs font-body text-sm leading-relaxed text-cream/60">
             Doğayla iç içe, özel havuzlu müstakil bungalov. Aileler, kız grupları
             ve erkek grupları için huzurlu bir kaçış.
