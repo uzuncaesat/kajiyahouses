@@ -33,3 +33,6 @@ next-env.d.ts
 # ham kaynak medya (public/ içine optimize kopyaları alındı)
 /görsel ve videolar/
 /Yenifotovideolar/
+
+# gecici onizleme/kontak sayfalari
+/.preview/
