@@ -90,7 +90,7 @@ export default function HouseDetails() {
         >
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-soft">
             <Image
-              src="/images/house-interior.jpg"
+              src="/images/gallery/g14.jpg"
               alt="Kajiya Houses bungalov iç mekan"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"

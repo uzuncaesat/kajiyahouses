@@ -19,7 +19,7 @@ export default function RezervasyonPage() {
       {/* Header band */}
       <header className="relative flex min-h-[50vh] items-end overflow-hidden bg-ink">
         <Image
-          src="/images/feature-01.jpg"
+          src="/images/gallery/g21.jpg"
           alt="Kajiya Houses özel havuz"
           fill
           priority

@@ -47,7 +47,7 @@ export default function BookingCTA() {
     <section id="rezervasyon" className="relative overflow-hidden bg-ink py-24 text-cream md:py-32">
       {/* Arka plan görseli + koyu overlay */}
       <Image
-        src="/images/cta-bg.jpg"
+        src="/images/gallery/g06.jpg"
         alt="Kajiya Houses özel havuz"
         fill
         sizes="100vw"

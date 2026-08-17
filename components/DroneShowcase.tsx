@@ -170,7 +170,7 @@ export default function DroneShowcase() {
                 muted
                 loop
                 playsInline
-                poster="/images/feature-02.jpg"
+                poster="/images/gallery/g08.jpg"
                 className="h-full w-full object-cover"
               >
                 <source src="/videos/drone-showcase.mp4" type="video/mp4" />
