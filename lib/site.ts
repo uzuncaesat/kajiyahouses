@@ -56,51 +56,44 @@ export const rules = [
   "Maksimum konaklama kapasitesi 6 kişidir.",
 ] as const;
 
-// 22 gallery photos copied into /public/images
-export const galleryImages = Array.from({ length: 22 }, (_, i) => {
-  const num = String(i + 1).padStart(2, "0");
-  return {
-    src: `/images/gallery-${num}.jpg`,
-    alt: `${site.name} — fotoğraf ${i + 1}`,
-  };
-});
-
-export type MediaCategory =
-  | "İç Mekan"
-  | "Havuz"
-  | "Bahçe"
-  | "Drone Görüntüsü"
-  | "Videolar";
+export type MediaCategory = "İç Mekan" | "Havuz" | "Bahçe";
 
 export type MediaItem = {
   id: number;
-  type: "image" | "video";
   category: MediaCategory;
   src: string;
   title: string;
-  thumbnail?: string;
+  tall?: boolean; // dikey (portrait) — masonry'de 2 kat yükseklik
+  wide?: boolean; // öne çıkan — masonry'de 2 kat genişlik
 };
 
-export const galleryFilters = [
-  "Tümü",
-  "İç Mekan",
-  "Havuz",
-  "Bahçe",
-  "Drone Görüntüsü",
-  "Videolar",
-] as const;
+export const galleryFilters = ["Tümü", "İç Mekan", "Havuz", "Bahçe"] as const;
 
+// Yenifotovideolar klasöründen optimize edilip /public/images/gallery içine alındı
 export const galleryMedia: MediaItem[] = [
-  { id: 1, type: "image", category: "İç Mekan", src: "/images/bedroom-1.jpg", title: "Ana Yatak Odası" },
-  { id: 2, type: "image", category: "İç Mekan", src: "/images/bedroom-2.jpg", title: "İkinci Yatak Odası" },
-  { id: 3, type: "image", category: "İç Mekan", src: "/images/living-room.jpg", title: "Oturma Odası" },
-  { id: 4, type: "image", category: "İç Mekan", src: "/images/kitchen.jpg", title: "Tam Donanımlı Mutfak" },
-  { id: 5, type: "image", category: "Havuz", src: "/images/pool-1.jpg", title: "Isıtmalı Özel Havuz" },
-  { id: 6, type: "image", category: "Havuz", src: "/images/pool-night.jpg", title: "Gece Havuz" },
-  { id: 7, type: "image", category: "Bahçe", src: "/images/garden.jpg", title: "Korunaklı Bahçe" },
-  { id: 8, type: "image", category: "Bahçe", src: "/images/bbq.jpg", title: "BBQ Alanı" },
-  { id: 9, type: "video", category: "Drone Görüntüsü", src: "/videos/drone-1.mp4", thumbnail: "/images/drone-thumb.jpg", title: "Drone Turu" },
-  { id: 10, type: "video", category: "Videolar", src: "/videos/interior-tour.mp4", thumbnail: "/images/interior-thumb.jpg", title: "İç Mekan Turu" },
+  { id: 1, category: "Bahçe", src: "/images/gallery/g01.jpg", title: "Müstakil Bungalov", tall: true },
+  { id: 2, category: "Bahçe", src: "/images/gallery/g02.jpg", title: "BBQ & Mangal Alanı" },
+  { id: 3, category: "İç Mekan", src: "/images/gallery/g03.jpg", title: "Yatak Odası" },
+  { id: 4, category: "Bahçe", src: "/images/gallery/g04.jpg", title: "Bahçe Oturma Alanı", tall: true },
+  { id: 5, category: "İç Mekan", src: "/images/gallery/g05.jpg", title: "Tam Donanımlı Mutfak" },
+  { id: 6, category: "Havuz", src: "/images/gallery/g06.jpg", title: "Gece Havuz Keyfi", wide: true },
+  { id: 7, category: "İç Mekan", src: "/images/gallery/g07.jpg", title: "Mutfak & Yaşam Alanı" },
+  { id: 8, category: "Havuz", src: "/images/gallery/g08.jpg", title: "Havuz & Şezlonglar", tall: true },
+  { id: 9, category: "İç Mekan", src: "/images/gallery/g09.jpg", title: "Oturma Odası" },
+  { id: 10, category: "İç Mekan", src: "/images/gallery/g10.jpg", title: "Banyo" },
+  { id: 11, category: "Havuz", src: "/images/gallery/g11.jpg", title: "Aydınlatmalı Havuz", wide: true },
+  { id: 12, category: "Havuz", src: "/images/gallery/g12.jpg", title: "Özel Havuz", tall: true },
+  { id: 13, category: "Havuz", src: "/images/gallery/g13.jpg", title: "Havuz Manzarası" },
+  { id: 14, category: "Havuz", src: "/images/gallery/g14.jpg", title: "Bungalov & Havuz", tall: true },
+  { id: 15, category: "İç Mekan", src: "/images/gallery/g15.jpg", title: "İç Koridor" },
+  { id: 16, category: "İç Mekan", src: "/images/gallery/g16.jpg", title: "İkinci Yatak Odası" },
+  { id: 17, category: "Havuz", src: "/images/gallery/g17.jpg", title: "Güneşlenme Alanı", tall: true },
+  { id: 18, category: "İç Mekan", src: "/images/gallery/g18.jpg", title: "Ebeveyn Banyo" },
+  { id: 19, category: "İç Mekan", src: "/images/gallery/g19.jpg", title: "Şömineli Oturma Odası" },
+  { id: 20, category: "Havuz", src: "/images/gallery/g20.jpg", title: "Havuz Başı", tall: true },
+  { id: 21, category: "Havuz", src: "/images/gallery/g21.jpg", title: "Gündüz Havuz", tall: true },
+  { id: 22, category: "Havuz", src: "/images/gallery/g22.jpg", title: "Havuz & Dinlenme" },
+  { id: 23, category: "Bahçe", src: "/images/gallery/g23.jpg", title: "Akşam Bahçe Keyfi" },
 ];
 
 export const featureImages = [

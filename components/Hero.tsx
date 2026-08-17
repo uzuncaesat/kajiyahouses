@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -9,41 +9,54 @@ import { MapPin, ArrowRight, Users, Moon, Clock } from "lucide-react";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
-  // Mobilde video yerine fallback görsel kullan
-  const [isMobile, setIsMobile] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Mobil tarayıcılarda otomatik oynatmayı garanti et:
+  // React 'muted' özelliğini DOM'a her zaman yazmaz, ayrıca bazı mobil
+  // tarayıcılar play()'i ancak kullanıcı/medya hazır olunca kabul eder.
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
-    const update = () => setIsMobile(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.defaultMuted = true;
+    const tryPlay = () => {
+      const p = v.play();
+      if (p) p.catch(() => {});
+    };
+    tryPlay();
+    v.addEventListener("canplay", tryPlay, { once: true });
+    v.addEventListener("loadeddata", tryPlay, { once: true });
+    return () => {
+      v.removeEventListener("canplay", tryPlay);
+      v.removeEventListener("loadeddata", tryPlay);
+    };
   }, []);
 
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink">
-      {/* 1 — Full-screen drone video (mobilde fallback görsel) */}
-      {isMobile ? (
-        <Image
-          src="/images/hero-fallback.jpg"
-          alt="Sapanca doğası — Kajiya Houses"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      ) : (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/images/hero-fallback.jpg"
-          className="absolute inset-0 h-full w-full object-cover"
-        >
-          <source src="/videos/drone-hero.mp4" type="video/mp4" />
-        </video>
-      )}
+      {/* 1 — Tüm cihazlarda full-screen drone video.
+          Altta fallback görsel: video yüklenene/oynayana kadar (veya
+          oynatma engellenirse) her zaman bir görsel görünür. */}
+      <Image
+        src="/images/hero-fallback.jpg"
+        alt="Sapanca doğası — Kajiya Houses"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/images/hero-fallback.jpg"
+        className="absolute inset-0 h-full w-full object-cover"
+      >
+        <source src="/videos/hero.mp4" type="video/mp4" />
+      </video>
 
       {/* Koyu overlay (#1A1A1A, %40) + okunabilirlik için ince degrade */}
       <div className="absolute inset-0 bg-ink/40" />

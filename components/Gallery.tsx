@@ -4,23 +4,15 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  X,
-  ChevronLeft,
-  ChevronRight,
-  Play,
-  ArrowUpRight,
-} from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { galleryFilters, galleryMedia, type MediaItem } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/* Masonry span sınıfları — bazı görseller 2 kat yüksek, drone videosu daima col-span-2 */
+/* Masonry span sınıfları — öne çıkanlar geniş, dikey görseller 2 kat yüksek */
 function spanClass(item: MediaItem): string {
-  if (item.category === "Drone Görüntüsü")
-    return "col-span-2 row-span-2"; // drone her zaman geniş
-  if (item.type === "video") return "row-span-2"; // diğer videolar uzun
-  if ([3, 5, 7].includes(item.id)) return "row-span-2"; // seçili görseller 2x
+  if (item.wide) return "col-span-2 row-span-2"; // öne çıkan geniş kare
+  if (item.tall) return "row-span-2"; // dikey görseller
   return "row-span-1";
 }
 
@@ -154,19 +146,12 @@ export default function Gallery({ preview = false }: GalleryProps) {
                 )}`}
               >
                 <Image
-                  src={item.type === "video" ? item.thumbnail! : item.src}
+                  src={item.src}
                   alt={item.title}
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-
-                {/* Video oynat rozeti */}
-                {item.type === "video" && (
-                  <span className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-cream/60 bg-ink/30 backdrop-blur-sm transition-transform duration-500 group-hover:scale-110">
-                    <Play className="h-5 w-5 translate-x-0.5 fill-cream text-cream" />
-                  </span>
-                )}
 
                 {/* İsim overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -232,25 +217,14 @@ export default function Gallery({ preview = false }: GalleryProps) {
               className="relative max-h-[85vh] w-[92vw] max-w-5xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {activeItem.type === "video" ? (
-                <video
-                  src={activeItem.src}
-                  poster={activeItem.thumbnail}
-                  controls
-                  autoPlay
-                  playsInline
-                  className="mx-auto max-h-[85vh] w-full rounded-xl bg-black object-contain"
-                />
-              ) : (
-                <Image
-                  src={activeItem.src}
-                  alt={activeItem.title}
-                  width={1600}
-                  height={1200}
-                  priority
-                  className="mx-auto h-auto max-h-[85vh] w-auto rounded-xl object-contain"
-                />
-              )}
+              <Image
+                src={activeItem.src}
+                alt={activeItem.title}
+                width={1600}
+                height={1200}
+                priority
+                className="mx-auto h-auto max-h-[85vh] w-auto rounded-xl object-contain"
+              />
 
               <div className="mt-4 flex items-center justify-between">
                 <div>

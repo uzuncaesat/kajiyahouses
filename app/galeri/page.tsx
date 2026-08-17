@@ -19,8 +19,8 @@ export default function GaleriPage() {
       {/* Header band */}
       <header className="relative flex min-h-[60vh] items-end overflow-hidden bg-ink">
         <Image
-          src="/images/garden.jpg"
-          alt="Kajiya Houses bahçe ve havuz"
+          src="/images/gallery/g22.jpg"
+          alt="Kajiya Houses havuz ve bahçe"
           fill
           priority
           sizes="100vw"
