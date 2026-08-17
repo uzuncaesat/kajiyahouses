@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -10,6 +10,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
 
   // Mobil tarayıcılarda otomatik oynatmayı garanti et:
   // React 'muted' özelliğini DOM'a her zaman yazmaz, ayrıca bazı mobil
@@ -24,21 +25,27 @@ export default function Hero() {
       if (p) p.catch(() => {});
     };
     tryPlay();
+    // Video gerçekten oynamaya başlayınca görünür yap → görselden videoya
+    // geçiş yumuşak olur, ani "foto sonra video" sıçraması olmaz.
+    const onPlaying = () => setVideoReady(true);
     v.addEventListener("canplay", tryPlay, { once: true });
     v.addEventListener("loadeddata", tryPlay, { once: true });
+    v.addEventListener("playing", onPlaying);
     return () => {
       v.removeEventListener("canplay", tryPlay);
       v.removeEventListener("loadeddata", tryPlay);
+      v.removeEventListener("playing", onPlaying);
     };
   }, []);
 
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-ink">
       {/* 1 — Tüm cihazlarda full-screen drone video.
-          Altta fallback görsel: video yüklenene/oynayana kadar (veya
-          oynatma engellenirse) her zaman bir görsel görünür. */}
+          Altta, videonun İLK KARESİ ile birebir aynı fallback görsel durur;
+          video oynamaya başlayınca üzerine yumuşakça belirir. Böylece
+          görselden videoya geçiş görünmez — "önce foto, sonra video" olmaz. */}
       <Image
-        src="/images/hero-fallback.jpg"
+        src="/images/hero-poster.jpg"
         alt="Sapanca doğası — Kajiya Houses"
         fill
         priority
@@ -52,8 +59,10 @@ export default function Hero() {
         loop
         playsInline
         preload="auto"
-        poster="/images/hero-fallback.jpg"
-        className="absolute inset-0 h-full w-full object-cover"
+        poster="/images/hero-poster.jpg"
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+          videoReady ? "opacity-100" : "opacity-0"
+        }`}
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>
